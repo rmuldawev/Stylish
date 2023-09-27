@@ -27,8 +27,8 @@ const MainNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Login.Screen component={SignIn} name="SignIn" />
       <Login.Screen component={Splash} name="Splash" />
+      <Login.Screen component={SignIn} name="SignIn" />
       <Login.Screen component={SingUp} name="SignUp" />
       <Login.Screen component={ForgotPassword} name="ForgotPassword" />
     </Login.Navigator>

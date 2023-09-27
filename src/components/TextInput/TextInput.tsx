@@ -1,20 +1,46 @@
-import {Box, HStack, Input, Pressable} from 'native-base';
+import {Box, HStack, Input, Pressable, Text} from 'native-base';
 import {FC, useState} from 'react';
-import {Controller} from 'react-hook-form';
+import {Controller, FieldError} from 'react-hook-form';
 import User from '../../assets/icons/User';
 import Lock from '../../assets/icons/Lock';
 import Eye from '../../assets/icons/Eye';
 import {ViewStyle} from 'react-native';
+import Email from '../../assets/icons/Email';
 
 interface TextInputProps {
   name: string;
   placeholder?: string;
-  type?: string;
+  type: string;
   style?: ViewStyle;
+  error?: FieldError;
 }
 
-const TextInput: FC<TextInputProps> = ({name, placeholder, type, style}) => {
+const TextInput: FC<TextInputProps> = ({
+  name,
+  placeholder,
+  type,
+  style,
+  error,
+}) => {
   const [show, setShow] = useState<boolean>(false);
+  const types = {
+    login: (
+      <Box w={'24px'} alignItems={'center'}>
+        <User />
+      </Box>
+    ),
+    password: (
+      <Box w={'24px'} alignItems={'center'}>
+        <Lock />
+      </Box>
+    ),
+    email: (
+      <Box w={'24px'} alignItems={'center'}>
+        <Email />
+      </Box>
+    ),
+  };
+
   return (
     <Controller
       name={name}
@@ -23,10 +49,10 @@ const TextInput: FC<TextInputProps> = ({name, placeholder, type, style}) => {
           <>
             <HStack
               style={style}
-              bg={'#ffffff'}
+              bg={'##F3F3F3'}
               h={55}
               borderRadius={10}
-              borderColor={'#A8A8A9'}
+              borderColor={error ? '#F83758' : '#A8A8A9'}
               borderWidth={1}
               alignItems={'center'}
               pl={11}
@@ -39,17 +65,7 @@ const TextInput: FC<TextInputProps> = ({name, placeholder, type, style}) => {
                     </Pressable>
                   ) : undefined
                 }
-                leftElement={
-                  type !== 'password' ? (
-                    <Box w={'24px'} alignItems={'center'}>
-                      <User />
-                    </Box>
-                  ) : (
-                    <Box w={'24px'} alignItems={'center'}>
-                      <Lock />
-                    </Box>
-                  )
-                }
+                leftElement={types[type]}
                 type={show ? 'password' : 'text'}
                 placeholderTextColor={'#676767'}
                 borderWidth={0}
@@ -59,6 +75,7 @@ const TextInput: FC<TextInputProps> = ({name, placeholder, type, style}) => {
                 placeholder={placeholder}
               />
             </HStack>
+            {/* {error && <Text>{error.message}</Text>} */}
           </>
         );
       }}
